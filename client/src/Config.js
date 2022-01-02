@@ -1,17 +1,21 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { EXT_CONFIG_API } from './API/ApiConfig';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { FIX_EXT_CONFIG_API, CUSTOM_EXT_CONFIG_API } from './API/ApiConfig';
 
 function Config() {
   const [fixedBanExts, setFixedBanExts] = useState([]);
   const [customBanExts, setCustomBanExts] = useState([]);
+  const [customExtInput, setCustomExtInput] = useState('');
 
   useEffect(() => {
     getFixExtConfig();
+    getCustomExtConfig();
   }, []);
 
   const getFixExtConfig = async () => {
-    fetch(EXT_CONFIG_API)
+    fetch(FIX_EXT_CONFIG_API)
       .then(res => res.json())
       .then(res => {
         const { result } = res;
@@ -19,15 +23,58 @@ function Config() {
       });
   };
 
-  const handleCheck = async event => {
-    await fetch(EXT_CONFIG_API, {
+  const getCustomExtConfig = async () => {
+    fetch(CUSTOM_EXT_CONFIG_API)
+      .then(res => res.json())
+      .then(res => {
+        const { result } = res;
+        setCustomBanExts([...result]);
+      });
+  };
+
+  const handleFixExtCheck = async event => {
+    await fetch(FIX_EXT_CONFIG_API, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ extension: event.currentTarget.value }),
+      body: JSON.stringify({
+        extension: event.currentTarget.value,
+      }),
     });
     await getFixExtConfig();
+  };
+
+  const handleCustomInput = event => {
+    setCustomExtInput(event.currentTarget.value);
+  };
+
+  const insertCustomExtConfig = async () => {
+    await fetch(CUSTOM_EXT_CONFIG_API, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        extension: customExtInput,
+        tag: 'custom',
+      }),
+    });
+    await getCustomExtConfig();
+  };
+
+  const deleteCustomExtConfig = async event => {
+    event.preventDefault();
+    await fetch(CUSTOM_EXT_CONFIG_API, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        extension: event.currentTarget.innerText,
+      }),
+    });
+    await getCustomExtConfig();
   };
 
   return (
@@ -44,7 +91,7 @@ function Config() {
                 <input
                   type='checkbox'
                   name='extension'
-                  onClick={handleCheck}
+                  onChange={handleFixExtCheck}
                   value={ext.extension_name}
                   checked={ext.is_banned}
                 />
@@ -55,11 +102,19 @@ function Config() {
         </div>
         <div>
           <span>커스텀 확장자</span>
-          <input type='text' />
-          <CustomConfigAddBtn type='button'>추가+</CustomConfigAddBtn>
+          <input type='text' onChange={handleCustomInput} />
+          <CustomConfigAddBtn type='button' onClick={insertCustomExtConfig}>
+            추가+
+          </CustomConfigAddBtn>
         </div>
-        <CustomConfig>test</CustomConfig>
-        <SubmitBtn type='submit'>Save</SubmitBtn>
+        <CustomConfig>
+          {customBanExts.map(ext => (
+            <Exts key={ext.id} onClick={deleteCustomExtConfig}>
+              {ext.extension_name}
+              <FontAwesomeIcon icon={faTrashAlt} size='sm' />
+            </Exts>
+          ))}
+        </CustomConfig>
         <ResetBtn type='reset'>Reset</ResetBtn>
       </form>
     </div>

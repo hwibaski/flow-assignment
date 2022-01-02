@@ -1,3 +1,4 @@
 const LOCAL_URL = 'http://localhost:8000';
 
-export const EXT_CONFIG_API = `${LOCAL_URL}/config`;
+export const FIX_EXT_CONFIG_API = `${LOCAL_URL}/config/fix`;
+export const CUSTOM_EXT_CONFIG_API = `${LOCAL_URL}/config/custom`;
