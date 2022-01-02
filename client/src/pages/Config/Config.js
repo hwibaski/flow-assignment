@@ -86,16 +86,15 @@ function Config() {
       '모든 확장자 설정이 초기화 됩니다. 진행하시겠습니까?'
     );
     if (answer) {
-      fetch(RESET_EXT_CONFIG_API, {
+      await fetch(RESET_EXT_CONFIG_API, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
         },
       });
+      await getFixExtConfig();
+      await getCustomExtConfig();
     }
-
-    await getFixExtConfig();
-    await getCustomExtConfig();
   };
 
   return (
