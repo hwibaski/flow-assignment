@@ -1,6 +1,6 @@
 const prisma = require('../prisma');
 
-const insertCustomExtConfig = async reqData => {
+const addCustomExtConfig = async reqData => {
   const { extension, tag } = reqData;
   await prisma.$queryRaw`
   INSERT INTO extensions (extension_name, tag)
@@ -9,15 +9,29 @@ const insertCustomExtConfig = async reqData => {
 };
 
 const getFixExtConfig = async () => {
-  return await prisma.$queryRaw`
+  const result = await prisma.$queryRaw`
   SELECT * FROM extensions where tag = 'fix'
   `;
+  result.map(el => {
+    el.extensionName = el.extension_name;
+    el.isBanned = el.is_banned;
+    delete el.is_banned;
+    delete el.extension_name;
+  });
+  return result;
 };
 
 const getCustomExtConfig = async () => {
-  return await prisma.$queryRaw`
+  const result = await prisma.$queryRaw`
   SELECT * FROM extensions where tag = 'custom'
   `;
+  result.map(el => {
+    el.extensionName = el.extension_name;
+    el.isBanned = el.is_banned;
+    delete el.is_banned;
+    delete el.extension_name;
+  });
+  return result;
 };
 
 const deleteCustomExtConfig = async reqData => {
@@ -58,8 +72,18 @@ const getAllExtName = async () => {
   return newResult;
 };
 
+const resetAllConfig = async () => {
+  await prisma.$queryRaw`
+  DELETE FROM extensions WHERE tag = 'custom'
+  `;
+  await prisma.$queryRaw`
+  UPDATE extensions SET is_banned=0
+  WHERE tag = 'fix'
+  `;
+};
+
 module.exports = {
-  insertCustomExtConfig,
+  addCustomExtConfig,
   getFixExtConfig,
   getCustomExtConfig,
   deleteCustomExtConfig,
@@ -67,4 +91,5 @@ module.exports = {
   toggleOffExt,
   toggleOnExt,
   getAllExtName,
+  resetAllConfig,
 };
