@@ -1,0 +1,17 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Extension {
+  id             Int     @id @default(autoincrement())
+  extension_name String  @unique @db.VarChar(100)
+  isBanned       Boolean @default(true) @map("is_banned")
+  tag            String  @db.VarChar(100)
+
+  @@map("extensions")
+}
