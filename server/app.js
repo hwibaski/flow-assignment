@@ -15,14 +15,14 @@ app.post('/upload', upload.array('userfile'), (req, res) => {
   res.send('ok');
 });
 
-app.get('/config', async (req, res) => {
+app.get('/config/fix', async (req, res) => {
   const result = await extConfigDao.getFixExtConfig();
   res.json({
     result,
   });
 });
 
-app.post('/config', async (req, res) => {
+app.post('/config/fix', async (req, res) => {
   const [extension] = await extConfigDao.getExtConfigByName(req.body);
   if (extension.is_banned === 1) {
     await extConfigDao.toggleOffExt(req.body);
@@ -31,6 +31,21 @@ app.post('/config', async (req, res) => {
     await extConfigDao.toggleOnExt(req.body);
   }
   res.json({ message: 'extension ban status is changed' });
+});
+
+app.get('/config/custom', async (req, res) => {
+  const result = await extConfigDao.getCustomExtConfig();
+  return res.json({ result });
+});
+
+app.post('/config/custom', async (req, res) => {
+  await extConfigDao.insertCustomExtConfig(req.body);
+  res.json({ message: 'extension status is added' });
+});
+
+app.delete('/config/custom', async (req, res) => {
+  await extConfigDao.deleteCustomExtConfig(req.body);
+  res.json({ message: 'extension is deleted' });
 });
 
 app.use((req, res, next) => {

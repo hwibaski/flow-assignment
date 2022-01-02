@@ -1,6 +1,6 @@
 const prisma = require('../prisma');
 
-const insertExtConfig = async reqData => {
+const insertCustomExtConfig = async reqData => {
   const { extension, tag } = reqData;
   await prisma.$queryRaw`
   INSERT INTO extensions (extension_name, tag)
@@ -8,16 +8,22 @@ const insertExtConfig = async reqData => {
   `;
 };
 
-const deleteFixExtConfig = async reqData => {
-  const { extension } = reqData;
-  await prisma.$queryRaw`
-  DELETE from extensions where extension_name = ${extension}
-  `;
-};
-
 const getFixExtConfig = async () => {
   return await prisma.$queryRaw`
   SELECT * FROM extensions where tag = 'fix'
+  `;
+};
+
+const getCustomExtConfig = async () => {
+  return await prisma.$queryRaw`
+  SELECT * FROM extensions where tag = 'custom'
+  `;
+};
+
+const deleteCustomExtConfig = async reqData => {
+  const { extension } = reqData;
+  await prisma.$queryRaw`
+  DELETE FROM extensions WHERE extension_name = ${extension}
   `;
 };
 
@@ -51,12 +57,12 @@ const getAllExtName = async () => {
   const newResult = result.map(el => el.extension_name);
   return newResult;
 };
-getAllExtName().then(console.log);
 
 module.exports = {
-  insertExtConfig,
-  deleteFixExtConfig,
+  insertCustomExtConfig,
   getFixExtConfig,
+  getCustomExtConfig,
+  deleteCustomExtConfig,
   getExtConfigByName,
   toggleOffExt,
   toggleOnExt,
