@@ -20,6 +20,7 @@
   "homepage": "https://github.com/hwibaski/flow-assignment#readme",
   "keywords": [],
   "devDependencies": {
+    "csv-parser": "^3.0.0",
     "dotenv": "^10.0.0",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.15",
