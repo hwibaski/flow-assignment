@@ -29,6 +29,7 @@ npm start
 
 - http://localhost:3000/config - 파일 확장자 차단 설정 페이지
 - http://localhost:3000/upload - 파일 업로드를 테스트 하기 위한 업로드 페이지
+- 파일 업로드 시 `server` 디렉토리의 `uploads` 디렉토리에 저장됩니다.
 
 <br>
 
