@@ -54,7 +54,7 @@ const addCustomExtConfig = async (req, res) => {
   try {
     await extConfigService.addCustomExtConfig(req.body);
     res
-      .status(200)
+      .status(201)
       .json({ status: 'SUCCESS', message: `${req.body.extension} is banned` });
   } catch (error) {
     const { statusCode, message } = error;

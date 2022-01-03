@@ -5,11 +5,11 @@ const getFixExtConfig = async () => {
 };
 
 const toggleFixConfig = async reqData => {
-  const [extension] = await extConfigDao.getExtConfigByName(reqData);
-  if (extension.is_banned === 1) {
+  const [{ isBanned }] = await extConfigDao.getExtStatusByExtName(reqData);
+  if (isBanned === 1) {
     await extConfigDao.toggleOffExt(reqData);
   }
-  if (extension.is_banned === 0) {
+  if (isBanned === 0) {
     await extConfigDao.toggleOnExt(reqData);
   }
 };
@@ -19,6 +19,17 @@ const getCustomExtConfig = async () => {
 };
 
 const addCustomExtConfig = async reqData => {
+  const [result] = await extConfigDao.getExtNameByExtName(reqData);
+  const customExtData = await getCustomExtConfig();
+
+  if (result?.extensionName === reqData.extension) {
+    throw new Error('The Extension is already added');
+  }
+
+  if (customExtData.length > 200) {
+    throw new Error('You cannot add extension more than 200');
+  }
+
   await extConfigDao.addCustomExtConfig(reqData);
 };
 
@@ -26,7 +37,7 @@ const deleteCustomExtConfig = async reqData => {
   await extConfigDao.deleteCustomExtConfig(reqData);
 };
 
-const resetAllConfig = async (req, res) => {
+const resetAllConfig = async () => {
   await extConfigDao.resetAllConfig();
 };
 

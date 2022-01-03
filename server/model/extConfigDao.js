@@ -41,11 +41,28 @@ const deleteCustomExtConfig = async reqData => {
   `;
 };
 
-const getExtConfigByName = async reqData => {
+const getExtStatusByExtName = async reqData => {
   const { extension } = reqData;
-  return await prisma.$queryRaw`
-  SELECT * FROM extensions where extension_name = ${extension}
+  const result = await prisma.$queryRaw`
+  SELECT is_banned FROM extensions where extension_name = ${extension}
   `;
+  result.map(el => {
+    el.isBanned = el.is_banned;
+    delete el.is_banned;
+  });
+  return result;
+};
+
+const getExtNameByExtName = async reqData => {
+  const { extension } = reqData;
+  const result = await prisma.$queryRaw`
+  SELECT extension_name FROM extensions where extension_name = ${extension}
+  `;
+  result.map(el => {
+    el.extensionName = el.extension_name;
+    delete el.extension_name;
+  });
+  return result;
 };
 
 const toggleOffExt = async reqData => {
@@ -87,7 +104,8 @@ module.exports = {
   getFixExtConfig,
   getCustomExtConfig,
   deleteCustomExtConfig,
-  getExtConfigByName,
+  getExtStatusByExtName,
+  getExtNameByExtName,
   toggleOffExt,
   toggleOnExt,
   getAllExtName,
