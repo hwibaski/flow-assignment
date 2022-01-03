@@ -4,14 +4,16 @@
 
 ---
 
-- Front End
+- Client
 
   - React / Styled-Component
 
-- Back End - NodeJS / ExpressJS / MySQL / PrismaORM
-  <br>
+- Back End
+  - NodeJS / ExpressJS / MySQL / PrismaORM
 
-### 📗 프로젝트를 시작하는 법
+<br>
+
+### 🚀 프로젝트를 시작하는 법 및 소개
 
 ---
 
@@ -22,7 +24,11 @@ source setting_up.sh
 
 cd client
 npm install
+npm start
 ```
+
+- http://localhost:3000/config - 파일 확장자 차단 설정 페이지
+- http://localhost:3000/upload - 파일 업로드를 테스트 하기 위한 업로드 페이지
 
 <br>
 
