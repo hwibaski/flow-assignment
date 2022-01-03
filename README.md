@@ -59,7 +59,7 @@ npm start
 
 ---
 
-![image](https://user-images.githubusercontent.com/85930725/147902873-be9d9e07-6665-4087-a915-f5755723cc05.png)
+![image](https://user-images.githubusercontent.com/85930725/147905426-ca4ab00a-ae91-4c96-959c-f769e3d328c8.png)
 <br>
 
 ### API 문서
