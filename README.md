@@ -8,7 +8,7 @@
 
   - React / Styled-Component
 
-- Back End
+- Server
   - NodeJS / ExpressJS / MySQL / PrismaORM
 
 <br>
