@@ -172,7 +172,7 @@ const FixConfigWrapper = styled.div`
 `;
 
 const FixConfigTitle = styled.p`
-  margin-right: 25px;
+  margin-right: 40px;
 `;
 
 const CustomConfigWrapper = styled.form`
@@ -180,7 +180,7 @@ const CustomConfigWrapper = styled.form`
 `;
 
 const CustomConfigTitle = styled.p`
-  margin-right: 15px;
+  margin-right: 30px;
 `;
 
 const CustomConfigInputWrapper = styled.div`
@@ -213,7 +213,7 @@ const CustomConfigCount = styled.div`
 
 const ResetBtn = styled.button`
   margin-top: 20px;
-  margin-left: 450px;
+  margin-left: 460px;
   padding: 5px 10px;
   border-radius: 3px;
   border: none;
