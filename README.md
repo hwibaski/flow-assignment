@@ -36,10 +36,8 @@ npm install
 
 ### DB 모델링
 ---
-![image](https://user-images.githubusercontent.com/85930725/147205675-a49b27b8-d210-444b-a9b3-069424103980.png)
-
-[DB 모델링 링크](https://dbdiagram.io/d/61621ca4940c4c4eec8d57e3)
-
+![image](https://user-images.githubusercontent.com/85930725/147902873-be9d9e07-6665-4087-a915-f5755723cc05.png)
+<br>
 
 ### API 문서
 ---
