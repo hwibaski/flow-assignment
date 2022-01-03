@@ -8,7 +8,7 @@ const validate = (req, res, next) => {
   return res.status(400).json({ message: errors.array()[0].msg });
 };
 
-const extConfigValidator = [
+const extValidator = [
   body('extension')
     .exists()
     .withMessage('There is no extension key')
@@ -37,4 +37,24 @@ const extConfigValidator = [
   validate,
 ];
 
-module.exports = extConfigValidator;
+const customExtVlidator = [
+  ...extValidator,
+  body('tag')
+    .exists()
+    .withMessage('There is no tag key')
+    .bail()
+    .notEmpty()
+    .withMessage('Tag cannot be empty')
+    .bail()
+    .trim()
+    .custom(value => {
+      const invalidTag = value !== 'custom';
+      if (invalidTag) {
+        return Promise.reject("Tag's value should be 'custom'");
+      }
+      return value;
+    }),
+  validate,
+];
+
+module.exports = { extValidator, customExtVlidator };

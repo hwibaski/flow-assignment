@@ -34,6 +34,10 @@ const addCustomExtConfig = async reqData => {
 };
 
 const deleteCustomExtConfig = async reqData => {
+  const [result] = await extConfigDao.getExtNameByExtName(reqData);
+  if (result === undefined) {
+    throw new Error('There is no extension data you want to delete');
+  }
   await extConfigDao.deleteCustomExtConfig(reqData);
 };
 

@@ -1,20 +1,20 @@
 const express = require('express');
 const extConfigController = require('../controller/extConfigController');
-const extConfigValidator = require('../middleware/validator');
+const { extValidator, customExtVlidator } = require('../middleware/validator');
 
 const router = express.Router();
 
 router.get('/fix', extConfigController.getFixExtConfig);
-router.post('/fix', extConfigValidator, extConfigController.toggleFixConfig);
+router.post('/fix', extValidator, extConfigController.toggleFixConfig);
 router.get('/custom', extConfigController.getCustomExtConfig);
 router.post(
   '/custom',
-  extConfigValidator,
+  customExtVlidator,
   extConfigController.addCustomExtConfig
 );
 router.delete(
   '/custom',
-  extConfigValidator,
+  extValidator,
   extConfigController.deleteCustomExtConfig
 );
 router.delete('/reset', extConfigController.resetAllConfig);
