@@ -54,6 +54,10 @@ function Config() {
   };
 
   const addCustomExtConfig = async () => {
+    if (customExtInput.length > 20) {
+      alert('확장자의 길이는 20자를 넘을 수 없습니다.');
+      return;
+    }
     await fetch(CUSTOM_EXT_CONFIG_API, {
       method: 'POST',
       headers: {
@@ -117,12 +121,17 @@ function Config() {
         <CustomConfigTitle>커스텀 확장자</CustomConfigTitle>
         <div>
           <CustomConfigInputWrapper>
-            <input type='text' onChange={handleCustomExtInput} />
+            <input
+              type='text'
+              onChange={handleCustomExtInput}
+              placeholder='확장자를 입력하세요'
+            />
             <CustomConfigAddBtn type='button' onClick={addCustomExtConfig}>
               추가+
             </CustomConfigAddBtn>
           </CustomConfigInputWrapper>
           <CustomConfigInfo>
+            <CustomConfigCount>{`${customBanExts.length}/200`}</CustomConfigCount>
             {customBanExts.map(ext => {
               return (
                 <CustomConfig
@@ -158,7 +167,12 @@ const Title = styled.div`
 
 const FixConfigWrapper = styled.div`
   display: flex;
+  align-items: center;
   margin-bottom: 10px;
+`;
+
+const FixConfigTitle = styled.p`
+  margin-right: 25px;
 `;
 
 const CustomConfigWrapper = styled.form`
@@ -169,27 +183,13 @@ const CustomConfigTitle = styled.p`
   margin-right: 15px;
 `;
 
-const FixConfigTitle = styled.p`
-  margin-right: 25px;
-`;
 const CustomConfigInputWrapper = styled.div`
   margin-bottom: 10px;
 `;
 
-const ResetBtn = styled.button`
-  margin-top: 20px;
-  margin-left: 450px;
-  padding: 5px;
-  border-radius: 3px;
-  border: none;
-  background-color: #8b32ea;
-  color: white;
-  cursor: pointer;
-`;
-
 const CustomConfigAddBtn = styled.button`
   margin-left: 10px;
-  padding: 5px;
+  padding: 5px 10px;
   border: none;
   border-radius: 3px;
   background-color: #8b32ea;
@@ -205,4 +205,19 @@ const CustomConfigInfo = styled.div`
   border-radius: 10px;
   overflow-y: auto;
   word-break: break-all;
+`;
+
+const CustomConfigCount = styled.div`
+  margin-bottom: 3px;
+`;
+
+const ResetBtn = styled.button`
+  margin-top: 20px;
+  margin-left: 450px;
+  padding: 5px 10px;
+  border-radius: 3px;
+  border: none;
+  background-color: #8b32ea;
+  color: white;
+  cursor: pointer;
 `;
