@@ -10,7 +10,8 @@ const addCustomExtConfig = async reqData => {
 
 const getFixExtConfig = async () => {
   const result = await prisma.$queryRaw`
-  SELECT * FROM extensions where tag = 'fix'
+  SELECT * FROM extensions
+  WHERE tag = 'fix'
   `;
   result.map(el => {
     el.extensionName = el.extension_name;
@@ -23,7 +24,8 @@ const getFixExtConfig = async () => {
 
 const getCustomExtConfig = async () => {
   const result = await prisma.$queryRaw`
-  SELECT * FROM extensions where tag = 'custom'
+  SELECT * FROM extensions
+  WHERE tag = 'custom'
   `;
   result.map(el => {
     el.extensionName = el.extension_name;
@@ -37,14 +39,16 @@ const getCustomExtConfig = async () => {
 const deleteCustomExtConfig = async reqData => {
   const { extension } = reqData;
   await prisma.$queryRaw`
-  DELETE FROM extensions WHERE extension_name = ${extension}
+  DELETE FROM extensions
+  WHERE extension_name = ${extension}
   `;
 };
 
 const getExtStatusByExtName = async reqData => {
   const { extension } = reqData;
   const result = await prisma.$queryRaw`
-  SELECT is_banned FROM extensions where extension_name = ${extension}
+  SELECT is_banned FROM extensions
+  WHERE extension_name = ${extension}
   `;
   result.map(el => {
     el.isBanned = el.is_banned;
@@ -56,7 +60,8 @@ const getExtStatusByExtName = async reqData => {
 const getExtNameByExtName = async reqData => {
   const { extension } = reqData;
   const result = await prisma.$queryRaw`
-  SELECT extension_name FROM extensions where extension_name = ${extension}
+  SELECT extension_name FROM extensions
+  WHERE extension_name = ${extension}
   `;
   result.map(el => {
     el.extensionName = el.extension_name;
@@ -68,7 +73,8 @@ const getExtNameByExtName = async reqData => {
 const toggleOffExt = async reqData => {
   const { extension } = reqData;
   await prisma.$queryRaw`
-  UPDATE extensions SET is_banned=0
+  UPDATE extensions
+  SET is_banned=0
   WHERE extension_name = ${extension}
   `;
 };
@@ -76,7 +82,8 @@ const toggleOffExt = async reqData => {
 const toggleOnExt = async reqData => {
   const { extension } = reqData;
   await prisma.$queryRaw`
-  UPDATE extensions SET is_banned=1
+  UPDATE extensions
+  SET is_banned=1
   WHERE extension_name = ${extension}
   `;
 };
@@ -84,6 +91,7 @@ const toggleOnExt = async reqData => {
 const getAllExtName = async () => {
   const result = await prisma.$queryRaw`
   SELECT extension_name FROM extensions
+  WHERE is_banned = 1
   `;
   const newResult = result.map(el => el.extension_name);
   return newResult;
@@ -91,10 +99,12 @@ const getAllExtName = async () => {
 
 const resetAllConfig = async () => {
   await prisma.$queryRaw`
-  DELETE FROM extensions WHERE tag = 'custom'
+  DELETE FROM extensions
+  WHERE tag = 'custom'
   `;
   await prisma.$queryRaw`
-  UPDATE extensions SET is_banned=0
+  UPDATE extensions
+  SET is_banned=0
   WHERE tag = 'fix'
   `;
 };
