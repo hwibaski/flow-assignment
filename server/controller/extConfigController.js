@@ -1,6 +1,6 @@
 const extConfigService = require('../service/extConfigService');
 
-const getFixExtConfig = async (req, res) => {
+const getFixExtConfig = async (req, res, next) => {
   try {
     const result = await extConfigService.getFixExtConfig();
     res.status(200).json({
@@ -12,7 +12,7 @@ const getFixExtConfig = async (req, res) => {
   }
 };
 
-const toggleFixConfig = async (req, res) => {
+const toggleFixConfig = async (req, res, next) => {
   try {
     await extConfigService.toggleFixConfig(req.body);
     res
@@ -23,7 +23,7 @@ const toggleFixConfig = async (req, res) => {
   }
 };
 
-const getCustomExtConfig = async (req, res) => {
+const getCustomExtConfig = async (req, res, next) => {
   try {
     const result = await extConfigService.getCustomExtConfig();
     res.status(200).json({
@@ -46,7 +46,7 @@ const addCustomExtConfig = async (req, res, next) => {
   }
 };
 
-const deleteCustomExtConfig = async (req, res) => {
+const deleteCustomExtConfig = async (req, res, next) => {
   try {
     await extConfigService.deleteCustomExtConfig(req.body);
     res.status(200).json({
@@ -58,7 +58,7 @@ const deleteCustomExtConfig = async (req, res) => {
   }
 };
 
-const resetAllConfig = async (req, res) => {
+const resetAllConfig = async (req, res, next) => {
   try {
     await extConfigService.resetAllConfig();
     res.json({ status: 'SUCCESS', message: 'All extension config is reset' });
