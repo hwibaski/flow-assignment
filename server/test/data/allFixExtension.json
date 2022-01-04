@@ -1,0 +1,12 @@
+[
+  {
+    "extension": "js",
+    "isBanned": 1,
+    "tag": "fix"
+  },
+  {
+    "extension": "exe",
+    "isBanned": 1,
+    "tag": "fix"
+  }
+]
