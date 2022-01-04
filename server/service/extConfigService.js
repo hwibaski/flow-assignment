@@ -23,11 +23,15 @@ const addCustomExtConfig = async reqData => {
   const customExtData = await getCustomExtConfig();
 
   if (result?.extensionName === reqData.extension) {
-    throw new Error('The Extension is already added');
+    const error = new Error('The Extension is already added');
+    error.status = 400;
+    throw error;
   }
 
   if (customExtData.length > 200) {
-    throw new Error('You cannot add extension more than 200');
+    const error = new Error('You cannot add extension more than 200');
+    error.status = 400;
+    throw error;
   }
 
   await extConfigDao.addCustomExtConfig(reqData);
@@ -36,7 +40,9 @@ const addCustomExtConfig = async reqData => {
 const deleteCustomExtConfig = async reqData => {
   const [result] = await extConfigDao.getExtNameByExtName(reqData);
   if (result === undefined) {
-    throw new Error('There is no extension data you want to delete');
+    const error = new Error('There is no extension data you want to delete');
+    error.status = 400;
+    throw error;
   }
   await extConfigDao.deleteCustomExtConfig(reqData);
 };
